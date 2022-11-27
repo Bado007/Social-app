@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-# Create your models here.
+# Create your models here.a
 
 
 class Profile(models.Model):
