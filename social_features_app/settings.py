@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-o!#u_^fi&3j*0zj%+#61c1ircyuc%a*@^m4*ksut^-1k0fyg4m
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+CSRF_TRUSTED_ORIGINS = ['https://8000-bado007-socialapp-zpd6fg0ytbd.ws-eu77.gitpod.io']
 
 # Application definition
 
