@@ -17,7 +17,6 @@ def index(request):
 @login_required(login_url='signin')
 def settings(request):
     user_profile = Profile.objects.get(user=request.user)
-
     if request.method == 'POST':
 
         # If there is no image gives the current 'default image' + it updates location and bio
@@ -30,6 +29,7 @@ def settings(request):
             user_profile.bio = bio
             user_profile.location = location
             user_profile.save()
+
         if request.FILES.get('image') != None:
             image = request.FILES.get('image')
             bio = request.POST['bio']
@@ -39,7 +39,6 @@ def settings(request):
             user_profile.bio = bio
             user_profile.location = location
             user_profile.save()
-
         return redirect('settings')
     return render(request, 'setting.html', {'user_profile': user_profile})
 
