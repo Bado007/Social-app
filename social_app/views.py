@@ -12,7 +12,11 @@ from .models import Profile
 def index(request):
     return render(request, 'index.html')
 
-# Sign Up in notes.
+
+#@login_required(login_url='signin')
+def settings(request):
+    user_profile = Profile.objects.get(user=request.user)
+    return render(request, 'setting.html', {'user_profile': user_profile})
 
 
 def signup(request):
@@ -25,33 +29,34 @@ def signup(request):
 
         if password == password2:
             if User.objects.filter(email=email).exists():
-                messages.info(request, 'This Email is already taken')
+                messages.info(request, 'Email Taken')
                 return redirect('signup')
             elif User.objects.filter(username=username).exists():
-                messages.info(request, 'Usename is already taken')
+                messages.info(request, 'Username Taken')
                 return redirect('signup')
             else:
                 user = User.objects.create_user(username=username, email=email, password=password)
                 user.save()
 
+                #log user in and redirect to settings page
+                user_login = auth.authenticate(username=username, password=password)
+                auth.login(request, user_login)
 
-                #Logu user name and direct to settings page
-
-                # Create profile object for the new user 
+                #create a Profile object for the new user
                 user_model = User.objects.get(username=username)
                 new_profile = Profile.objects.create(user=user_model, id_user=user_model.id)
                 new_profile.save()
-                return redirect('signup')
-
+                return redirect('settings')
         else:
-            messages.info(request, "Passwords don't match")
+            messages.info(request, 'Password Not Matching')
             return redirect('signup')
-
+        
     else:
         return render(request, 'signup.html')
 
 
 def signin(request):
+    
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -64,6 +69,7 @@ def signin(request):
         else:
             messages.info(request, 'Credentials Invalid')
             return redirect('signin')
+
     else:
         return render(request, 'signin.html')
 
