@@ -73,12 +73,13 @@
 
                         <div class="col-span-2">
                             <label for="about">Bio</label>
-                            <textarea id="about" name="bio" rows="3" class="shadow-none bg-gray-100"></textarea>
+                            <textarea id="about" name="bio" rows="3"
+                                class="shadow-none bg-gray-100">{{user_profile.bio}}</textarea>
                         </div>
                         <div class="col-span-2">
                             <label for="">Location</label>
-                            <input type="text" placeholder="" class="shadow-none bg-gray-100"
-                                name="location">{{user_profile.bio}}
+                            <input type="text" placeholder="" class="shadow-none bg-gray-100" name="location"
+                                value="{{user_profile.location}}">
                         </div>
 
 

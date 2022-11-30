@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from django.http import HttpResponse
+
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 
@@ -13,7 +14,7 @@ def index(request):
     return render(request, 'index.html')
 
 
-#@login_required(login_url='signin')
+@login_required(login_url='signin')
 def settings(request):
     user_profile = Profile.objects.get(user=request.user)
     return render(request, 'setting.html', {'user_profile': user_profile})
@@ -65,7 +66,7 @@ def signin(request):
 
         if user is not None:
             auth.login(request, user)
-            return redirect('/')
+            return redirect('index.html')
         else:
             messages.info(request, 'Credentials Invalid')
             return redirect('signin')
