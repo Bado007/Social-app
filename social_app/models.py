@@ -6,7 +6,7 @@ from datetime import datetime
 
 User = get_user_model()
 
-# Create your models here.a
+# Create your models here
 
 
 class Profile(models.Model):

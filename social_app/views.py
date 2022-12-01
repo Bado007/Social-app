@@ -14,19 +14,21 @@ def index(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
 
-    return render(request, 'index.html', {'user_profile': user_profile})
+    posts = Post.objects.all()
+    return render(request, 'index.html', {'user_profile': user_profile, 'posts': posts})
 
 
 @login_required(login_url='signin')
 def upload(request):
 
-    if request == 'POST':
+    if request.method == 'POST':
         user = request.user.username
         image = request.FILES.get('image_upload')
         caption = request.POST['caption']
 
         new_post = Post.objects.create(user=user, image=image, caption=caption)
         new_post.save()
+
         return redirect('/')
     else:
         return redirect('/')
@@ -47,7 +49,6 @@ def settings(request):
             user_profile.bio = bio
             user_profile.location = location
             user_profile.save()
-
         if request.FILES.get('image') != None:
             image = request.FILES.get('image')
             bio = request.POST['bio']
@@ -57,9 +58,14 @@ def settings(request):
             user_profile.bio = bio
             user_profile.location = location
             user_profile.save()
-
         return redirect('settings')
+
     return render(request, 'setting.html', {'user_profile': user_profile})
+
+
+@login_required(login_url='signin')
+def like_post(request):
+    pass
 
 
 def signup(request):
@@ -108,7 +114,7 @@ def signin(request):
 
         if user is not None:
             auth.login(request, user)
-            return redirect('index.html')
+            return redirect('/')
         else:
             messages.info(request, 'Credentials Invalid')
             return redirect('signin')
