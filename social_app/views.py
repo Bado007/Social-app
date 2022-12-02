@@ -138,12 +138,12 @@ def like_post(request):
     if like_filter == None:
         new_like = LikePost.objects.create(post_id=post_id, username=username)
         new_like.save()
-        post.no_of_likes = post.no_of_likes + 1
+        post.no_of_likes = post.no_of_likes+1
         post.save()
         return redirect('/')
     else:
         like_filter.delete()
-        post.no_of_likes = post.no_of_likes - 1
+        post.no_of_likes = post.no_of_likes-1
         post.save()
         return redirect('/')
 
